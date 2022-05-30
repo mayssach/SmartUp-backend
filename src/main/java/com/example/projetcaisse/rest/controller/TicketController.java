@@ -44,17 +44,28 @@ public class TicketController {
         return ResponseEntity.status(HttpStatus.OK).body(ticketDto);
     }
 
-    @PostMapping("/utilisateur/{idUser}/tickets")
+    @PostMapping("/utilisateur/{idUser}/ticket")
     public Object AddTicket(@PathVariable Long idUser,@Validated @RequestBody TicketDto ticketDto)
     {
 
         Ticket ticket = modelMapper.map(ticketDto, Ticket.class);
         Utilisateur u=utilisateurService.getUtilisateur(idUser);
         ticket.setUtilisateur(u);
-        ticket = ticketService.AddTicket(ticket);
+        ticket=ticketService.CreerTicket(ticket);
         ticketDto = modelMapper.map(ticket, TicketDto.class);
         return ResponseEntity.status(HttpStatus.CREATED).body(ticketDto);
     }
+
+    @PutMapping("/ticket/{idTicket}")
+    public Object AddTicket(@Validated @RequestBody TicketDto ticketDto , @PathVariable Long idTicket)
+    {
+
+        Ticket ticket = modelMapper.map(ticketDto,Ticket.class);
+        ticket = ticketService.AddTicket(idTicket,ticket);
+        ticketDto = modelMapper.map(ticket, TicketDto.class);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ticketDto);
+    }
+
 
     @PutMapping("/tickets/{idTicket}")
     public Object UpdateTicket (@Validated @RequestBody TicketDto ticketDto , @PathVariable Long idTicket) {

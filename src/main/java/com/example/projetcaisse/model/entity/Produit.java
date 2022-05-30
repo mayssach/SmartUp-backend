@@ -3,6 +3,7 @@ package com.example.projetcaisse.model.entity;
 import lombok.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -54,9 +55,8 @@ public class Produit implements Serializable {
     @Column(name="dateModif")
     private Date dateModif ;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_Ticket")
-    private Ticket ticket;
+    @OneToMany(mappedBy="produit")
+    private List<Quantite> quantites;
 
 }
 

@@ -31,6 +31,9 @@ public class Ticket implements Serializable {
     @Column(name = "idTicket", updatable = false, nullable = false)
     private Long idTicket ;
 
+    @Column(name="codeTicket")
+    private String codeTicket ;
+
     @Column(name="prixTotal")
     private float prixTotal ;
 
@@ -40,8 +43,6 @@ public class Ticket implements Serializable {
     @OneToMany(mappedBy="ticket")
     private List<Quantite> quantites;
 
-    @OneToMany(mappedBy="ticket")
-    private List<Produit> produits;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idUser")

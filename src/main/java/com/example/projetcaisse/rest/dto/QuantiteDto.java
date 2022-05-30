@@ -1,5 +1,7 @@
 package com.example.projetcaisse.rest.dto;
 
+import com.example.projetcaisse.model.entity.Produit;
+import com.example.projetcaisse.model.entity.Ticket;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,4 +16,6 @@ import lombok.Setter;
 public class QuantiteDto {
     private Long idQte ;
     private int qte ;
+    private ProduitDto produit;
+    private TicketDto ticket;
 }

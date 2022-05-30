@@ -24,6 +24,4 @@ public class TicketDto {
     private Long idTicket ;
     private float prixTotal ;
     private Date dateCreation ;
-    private List<Produit> produits;
-    private List<Integer> quantite;
 }

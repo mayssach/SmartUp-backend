@@ -38,6 +38,10 @@ public class QuantiteImpService implements QuantiteService {
         quantite.setIdQte(id);
         return quantiteRepository.save(quantite);
     }
+    @Override
+    public List<Quantite> getQuantiteByTicket(Long idT){
+        return quantiteRepository.findQuantiteByTicketIdTicket(idT);
+    }
 
     @Override
     public void DeleteQuantite(Long id) {

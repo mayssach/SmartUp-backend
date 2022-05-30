@@ -32,19 +32,22 @@ public class TicketImpService implements TicketService {
     }
 
     @Override
-    public Ticket AddTicket(Ticket ticket) {
+    public Ticket CreerTicket(Ticket ticket) {
+        return ticketRepository.save(ticket);
+    }
+
+    @Override
+    public Ticket AddTicket(Long idTicket,Ticket ticket) {
         ticket.setDateCreation(new Date());
-        Quantite q=new Quantite();
-       List<Produit> produits = ticket.getProduits();
-       Long idTicket = ticket.getIdTicket();
-       Float prixTotal = null;
-        if (produits != null) {
-            for (Produit produit : produits) {
-               q=quantiteService.getQuantite(produit.getIdProduit(),idTicket);
-               prixTotal+= q.getQte()* produit.getPrix();
+        List<Quantite> quantites=quantiteService.getQuantiteByTicket(idTicket);
+        Float prixTotal = 0f;
+        if (quantites != null) {
+            for (Quantite quantite : quantites) {
+               prixTotal+= quantite.getQte()* quantite.getProduit().getPrix();
             }
         }
         ticket.setPrixTotal(prixTotal);
+        ticket.setIdTicket(idTicket);
         return ticketRepository.save(ticket);
     }
 

@@ -32,6 +32,7 @@ public class Quantite implements Serializable {
     @Column(name="qte")
     private int qte ;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idProduit")
     private Produit produit;

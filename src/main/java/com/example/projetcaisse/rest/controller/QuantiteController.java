@@ -4,6 +4,7 @@ package com.example.projetcaisse.rest.controller;
 import com.example.projetcaisse.model.entity.Produit;
 import com.example.projetcaisse.model.entity.Quantite;
 import com.example.projetcaisse.model.entity.Ticket;
+import com.example.projetcaisse.rest.dto.ProduitDto;
 import com.example.projetcaisse.rest.dto.QuantiteDto;
 import com.example.projetcaisse.service.ProduitService;
 import com.example.projetcaisse.service.QuantiteService;
@@ -40,6 +41,14 @@ public class QuantiteController {
         QuantiteDto quantiteDto = modelMapper.map(q,QuantiteDto.class);
         return ResponseEntity.status(HttpStatus.OK).body(quantiteDto);
     }
+    @GetMapping("/tickets/{idticket}/Quantites")
+    public Object retrieveQuantiteByTicket(@PathVariable Long idticket) {
+        List<Quantite> q = quantiteService.getQuantiteByTicket(idticket);
+        Type listType = new TypeToken<List<QuantiteDto>>() {}.getType() ;
+        List <QuantiteDto> quantiteDtos= modelMapper.map(q,listType);
+        return ResponseEntity.status(HttpStatus.OK).body(quantiteDtos);
+    }
+
 
 
     @PostMapping("/tickets/{idticket}/produits/{idprod}/Quantites")
