@@ -3,9 +3,9 @@ package com.example.projetcaisse.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Entity
@@ -36,6 +36,9 @@ public class Ticket implements Serializable {
 
     @Column(name="dateCreation")
     private Date dateCreation ;
+
+    @OneToMany(mappedBy="ticket")
+    private List<Quantite> quantites;
 
     @OneToMany(mappedBy="ticket")
     private List<Produit> produits;

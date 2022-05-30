@@ -1,6 +1,7 @@
 package com.example.projetcaisse.rest.controller;
 
 import com.example.projetcaisse.model.entity.Ticket;
+import com.example.projetcaisse.model.entity.Utilisateur;
 import com.example.projetcaisse.rest.dto.TicketDto;
 import com.example.projetcaisse.service.ProduitService;
 import com.example.projetcaisse.service.TicketService;
@@ -43,10 +44,13 @@ public class TicketController {
         return ResponseEntity.status(HttpStatus.OK).body(ticketDto);
     }
 
-    @PostMapping("/tickets")
-    public Object AddTicket(@Validated @RequestBody TicketDto ticketDto)
+    @PostMapping("/utilisateur/{idUser}/tickets")
+    public Object AddTicket(@PathVariable Long idUser,@Validated @RequestBody TicketDto ticketDto)
     {
+
         Ticket ticket = modelMapper.map(ticketDto, Ticket.class);
+        Utilisateur u=utilisateurService.getUtilisateur(idUser);
+        ticket.setUtilisateur(u);
         ticket = ticketService.AddTicket(ticket);
         ticketDto = modelMapper.map(ticket, TicketDto.class);
         return ResponseEntity.status(HttpStatus.CREATED).body(ticketDto);
