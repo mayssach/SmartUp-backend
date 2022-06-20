@@ -22,4 +22,6 @@ public class ProduitDto {
     private int qte ;
     private Date dateAjout ;
     private Date dateModif ;
+    private int active ;
+
 }

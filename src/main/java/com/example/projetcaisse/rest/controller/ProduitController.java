@@ -20,9 +20,17 @@ public class ProduitController {
     private ProduitService produitService ;
     @Autowired
     private ModelMapper modelMapper ;
-    @GetMapping("/produits")
-    public Object Produitlist() {
-        List<Produit> produits= produitService.getProduitList();
+    @GetMapping("/produitsActives")
+    public Object ProduitlistActive() {
+        List<Produit> produits= produitService.getProduitListActive();
+        Type listType = new TypeToken<List<ProduitDto>>() {}.getType() ;
+        List <ProduitDto> produitDtos= modelMapper.map(produits,listType);
+        return ResponseEntity.status(HttpStatus.OK).body(produitDtos);
+    }
+
+    @GetMapping("/produitsDesactives")
+    public Object ProduitlistDesactive() {
+        List<Produit> produits= produitService.getProduitListDesactive();
         Type listType = new TypeToken<List<ProduitDto>>() {}.getType() ;
         List <ProduitDto> produitDtos= modelMapper.map(produits,listType);
         return ResponseEntity.status(HttpStatus.OK).body(produitDtos);
@@ -51,6 +59,26 @@ public class ProduitController {
         return ResponseEntity.status(HttpStatus.CREATED).body(produitDto);
 
     }
+
+    @PutMapping("/produitsActives/{idProduit}")
+    public Object ActiverProduit (@Validated @RequestBody ProduitDto produitDto , @PathVariable Long idProduit) {
+        Produit produit = modelMapper.map(produitDto,Produit.class);
+        produit= produitService.activerProduit(idProduit);
+        produitDto = modelMapper.map(produit,ProduitDto.class);
+        return ResponseEntity.status(HttpStatus.CREATED).body(produitDto);
+
+    }
+
+    @PutMapping("/produitsDesactives/{idProduit}")
+    public Object DesactiverProduit (@Validated @RequestBody ProduitDto produitDto , @PathVariable Long idProduit) {
+        Produit produit = modelMapper.map(produitDto,Produit.class);
+        produit= produitService.desactiverProduit(idProduit);
+        produitDto = modelMapper.map(produit,ProduitDto.class);
+        return ResponseEntity.status(HttpStatus.CREATED).body(produitDto);
+
+    }
+
+
 
     @DeleteMapping("/produits/{idProduit}")
     public Object DeleteProduit(@PathVariable Long idProduit) {

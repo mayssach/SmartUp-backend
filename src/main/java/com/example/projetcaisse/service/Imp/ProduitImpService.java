@@ -6,6 +6,7 @@ import com.example.projetcaisse.service.ProduitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,12 +19,19 @@ public class ProduitImpService implements ProduitService {
     }
 
     @Override
-    public List<Produit> getProduitList() {
-        return (List<Produit>)produitRepos.findAll();
+    public List<Produit> getProduitListActive() {
+        return (List<Produit>)produitRepos.findProduitByActive(1);
+    }
+
+    @Override
+    public List<Produit> getProduitListDesactive() {
+        return (List<Produit>)produitRepos.findProduitByActive(0);
     }
 
     @Override
     public Produit AddProduit(Produit produit) {
+        produit.setDateAjout(new Date());
+        produit.setActive(1);
         return produitRepos.save(produit);
     }
 
@@ -37,5 +45,19 @@ public class ProduitImpService implements ProduitService {
     @Override
     public void DeleteProduit(Long id) {
         produitRepos.deleteById(id);
+    }
+
+    @Override
+    public Produit activerProduit(Long id) {
+        Produit p=produitRepos.findById(id).get();
+        p.setActive(1);
+        return produitRepos.save(p);
+    }
+
+    @Override
+    public Produit desactiverProduit(Long id) {
+        Produit p=produitRepos.findById(id).get();
+        p.setActive(0);
+        return produitRepos.save(p);
     }
 }
